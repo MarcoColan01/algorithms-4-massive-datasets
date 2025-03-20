@@ -1,0 +1,18 @@
+!apt-get install openjdk-8-jdk-headless -qq > /dev/null
+!wget http://archive.apache.org/dist/spark/spark-3.4.0/spark-3.4.0-bin-hadoop3.tgz
+!tar xf spark-3.4.0-bin-hadoop3.tgz
+!pip install -q findspark
+
+import matplotlib.pyplot as plt 
+import pandas as pd 
+import numpy as np
+import os
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
+os.environ["SPARK_HOME"] = "/content/spark-3.4.0-bin-hadoop3"
+
+import findspark
+findspark.init()
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.master("local[*]").getOrCreate()
+spark.conf.set("spark.sql.repl.eagezEval.enabled", True)
+sc = spark.sparkContext
